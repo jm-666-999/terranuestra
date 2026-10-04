@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduKanbanPro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast"></div>
+
+  <section class="login-screen" id="loginScreen">
+    <div class="login-decoration decoration-one"></div>
+    <div class="login-decoration decoration-two"></div>
+    <div class="login-layout">
+      <div class="login-intro">
+        <div class="brand login-brand">
+          <div class="brand-icon">✓</div>
+          <div><strong>EduKanban</strong><span>PRO</span></div>
+        </div>
+        <p class="eyebrow">ESPACIO DOCENTE</p>
+        <h1>Tu trabajo,<br><em>en movimiento.</em></h1>
+        <p class="login-tagline">Organiza tus proyectos académicos, prioriza lo importante y avanza con claridad.</p>
+        <div class="login-proof"><span>✓</span><span>Todo tu semestre en un solo lugar</span></div>
+      </div>
+
+      <div class="login-card">
+        <div class="login-card-head">
+          <p class="eyebrow">BIENVENIDO</p>
+          <h2 id="authTitle">Inicia sesión</h2>
+          <p id="authSubtitle">Accede a tu espacio de trabajo.</p>
+        </div>
+        <form id="loginForm" class="login-form">
+          <label for="loginEmail">Correo electrónico
+            <input id="loginEmail" type="email" autocomplete="email" placeholder="tu@correo.com" required>
+          </label>
+          <label for="loginPassword">Contraseña
+            <span class="password-wrap"><input id="loginPassword" type="password" autocomplete="current-password" placeholder="••••••••" required minlength="6"><button type="button" id="togglePassword" aria-label="Mostrar contraseña">◉</button></span>
+          </label>
+          <div class="login-options"><label class="check-label"><input type="checkbox"> <span>Recordarme</span></label><button type="button" class="forgot-btn" id="forgotBtn">¿Olvidaste tu contraseña?</button></div>
+          <button class="primary login-submit"><span id="authSubmitText">Entrar a mi espacio</span> <span>→</span></button>
+          <p class="login-hint">¿No tienes cuenta? <button type="button" id="toggleAuthMode" class="forgot-btn">Regístrate aquí</button></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div class="app-shell hidden" id="appShell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">✓</div>
+        <div><strong>EduKanban</strong><span>PRO</span></div>
+      </div>
+
+      <nav>
+        <button class="nav-item active" data-view="dashboard">⌂ <span>Inicio</span></button>
+        <button class="nav-item" data-view="boards">▦ <span>Mis Tableros</span></button>
+        <button class="nav-item" data-view="create">＋ <span>Crear Tarea</span></button>
+        <button class="nav-item" data-view="support">◉ <span>Soporte</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="mini-profile">
+          <div class="avatar">JD</div>
+          <div><b>Juan Docente</b><small>Profesor</small></div>
+        </div>
+        <button class="logout" id="logoutBtn">↪ Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="mobile-brand">EduKanban<span>PRO</span></div>
+        <div class="top-actions">
+          <button class="icon-btn" title="Notificaciones" id="notifyBtn">♢</button>
+          <div class="avatar top-avatar">JD</div>
+        </div>
+      </header>
+
+      <section id="dashboard" class="view active-view">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">PANEL DE CONTROL</p>
+            <h1 id="dashboardGreeting">¡Hola! 👋</h1>
+            <p>Organiza tus tareas académicas y mantén tus proyectos bajo control.</p>
+          </div>
+          <button class="primary" data-view-target="create">＋ Nueva tarea</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card"><div class="stat-icon cyan">▣</div><div><small>Tareas totales</small><strong id="totalTasks">23</strong></div></div>
+          <div class="stat-card"><div class="stat-icon purple">◷</div><div><small>En proceso</small><strong id="progressTasks">8</strong></div></div>
+          <div class="stat-card"><div class="stat-icon pink">!</div><div><small>Alta prioridad</small><strong id="highTasks">4</strong></div></div>
+          <div class="stat-card"><div class="stat-icon green">✓</div><div><small>Finalizadas</small><strong id="doneTasks">11</strong></div></div>
+        </div>
+
+        <div class="motivation">
+          <button class="slide-arrow" id="prevSlide">‹</button>
+          <div class="motivation-content">
+            <div id="slideEmoji" class="slide-emoji">🚀</div>
+            <h2 id="slideTitle">¡Tú puedes con todo!</h2>
+            <p id="slideText">Cada tarea completada es un paso más hacia tus objetivos.</p>
+            <div class="dots" id="slideDots"></div>
+          </div>
+          <button class="slide-arrow" id="nextSlide">›</button>
+        </div>
+
+        <div class="section-head"><h2>Tableros recientes</h2><button class="link-btn" data-view-target="boards">Ver todos →</button></div>
+        <div class="board-grid" id="recentBoards"></div>
+      </section>
+
+      <section id="boards" class="view">
+        <div class="page-head">
+          <div><p class="eyebrow">PROYECTOS</p><h1>Mis Tableros</h1><p>Gestiona tus proyectos académicos.</p></div>
+          <button class="primary" id="createBoardBtn">＋ Crear tablero</button>
+        </div>
+        <div class="board-grid large" id="allBoards"></div>
+      </section>
+
+      <section id="create" class="view">
+        <div class="page-head"><div><p class="eyebrow">ORGANIZACIÓN</p><h1>Crear Nueva Tarea</h1><p>Agrega una nueva tarea a tu tablero.</p></div></div>
+        <form class="form-card" id="taskForm">
+          <label>Nombre de la tarea<input id="taskTitle" required placeholder="Ej: Preparar exámenes finales"></label>
+          <label>Descripción<textarea id="taskDescription" required placeholder="Describe los detalles de la tarea..."></textarea></label>
+
+          <label>Prioridad</label>
+          <div class="priority-row">
+            <button type="button" class="priority selected" data-priority="medium"><i class="green"></i>Baja</button>
+            <button type="button" class="priority" data-priority="medium"><i class="yellow"></i>Media</button>
+            <button type="button" class="priority" data-priority="high"><i class="pink"></i>Alta</button>
+          </div>
+
+          <div class="form-grid">
+            <label>Fecha límite<input id="taskDate" type="date" required></label>
+            <label>Categoría
+              <select id="taskCategory" required>
+                <option value="">Seleccionar categoría</option>
+                <option>Evaluaciones</option><option>Planificación</option><option>Reuniones</option>
+                <option>Investigación</option><option>Material Didáctico</option>
+              </select>
+            </label>
+          </div>
+          <label>Tablero destino
+            <select id="taskBoard" required></select>
+          </label>
+
+          <div class="form-actions"><button type="button" class="secondary" data-view-target="dashboard">Cancelar</button><button class="primary">✓ Crear tarea</button></div>
+        </form>
+        <div class="tips"><b>💡 Consejos rápidos</b><ul><li>Usa títulos descriptivos.</li><li>Establece prioridades según urgencia e importancia.</li><li>Incluye fechas límite realistas.</li><li>Agrega detalles para no olvidar nada.</li></ul></div>
+      </section>
+
+      <section id="kanban" class="view">
+        <div class="page-head board-page-head">
+          <div><button class="back-btn" data-view-target="boards">←</button><div><p class="eyebrow">TABLERO</p><h1 id="kanbanTitle">Proyecto Final 2026</h1><p>Gestiona las tareas del proyecto.</p></div></div>
+          <button class="primary" data-view-target="create">＋ Nueva tarea</button>
+        </div>
+        <div class="kanban" id="kanban"></div>
+      </section>
+
+      <section id="support" class="view">
+        <div class="page-head"><div><p class="eyebrow">AYUDA</p><h1>Soporte Técnico</h1><p>Estamos aquí para ayudarte.</p></div></div>
+        <div class="chat-card">
+          <div class="chat-header"><div class="bot-avatar">✦</div><div><b>Soporte EduKanbanPro</b><small><span class="online"></span> En línea</small></div></div>
+          <div class="messages" id="messages"></div>
+          <form class="chat-form" id="chatForm"><input id="chatInput" placeholder="Escribe tu mensaje..." autocomplete="off"><button class="primary">➤</button></form>
+        </div>
+        <div class="quick-help">
+          <button>¿Cómo crear un tablero?</button><button>¿Cómo invitar colaboradores?</button><button>Reportar un problema</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal hidden" id="modal">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose">×</button>
+      <h2>Crear tablero</h2>
+      <p>Organiza un nuevo proyecto académico.</p>
+      <form id="boardForm">
+        <label>Nombre<input id="boardName" required placeholder="Ej: Proyecto de ciencias"></label>
+        <label>Descripción<textarea id="boardDescription" placeholder="Describe el proyecto..."></textarea></label>
+        <label>Color<input id="boardColor" type="color" value="#00d9ff"></label>
+        <button class="primary">Crear tablero</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+</body>
+</html>
